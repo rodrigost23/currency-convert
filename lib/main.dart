@@ -39,10 +39,19 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return AnnotatedRegion(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
+        body: Column(
+          children: <Widget>[
+            SafeArea(
+              child: Card(
+                child: SizedBox(
+                height: 300,
+                width: double.infinity,
+              ),
+              ),
+            ),
+            Expanded(child: SafeArea(child: NumbersGrid())),
+          ],
         ),
-        body: NumbersGrid(),
       ),
       value: SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: Colors.transparent,
