@@ -1,0 +1,23 @@
+import 'package:flutter/material.dart';
+
+class HistoryPage extends StatefulWidget {
+  HistoryPage({Key key}) : super(key: key);
+
+  @override
+  _HistoryPageState createState() => _HistoryPageState();
+}
+
+class _HistoryPageState extends State<HistoryPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Histórico"),
+        brightness: Theme.of(context).brightness,
+        textTheme: Theme.of(context).textTheme,
+        iconTheme: Theme.of(context).iconTheme,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor.withAlpha(240),
+      ),
+    );
+  }
+}

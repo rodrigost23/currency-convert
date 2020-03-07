@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../screens/history_page.dart';
 import '../widgets/keyboard_button.dart';
 import '../widgets/numbers_grid.dart';
 
@@ -32,7 +33,10 @@ class _HomePageState extends State<HomePage> {
                         children: <Widget>[
                           IconButton(
                             icon: Icon(Icons.history),
-                            onPressed: () {},
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => HistoryPage()),
+                            ),
                           ),
                         ],
                       ),
