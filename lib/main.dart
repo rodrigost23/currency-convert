@@ -42,16 +42,61 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Scaffold(
         body: Column(
           children: <Widget>[
-            SafeArea(
-              child: Card(
+            Card(
+              margin: EdgeInsets.all(0),
+              shape: Border(),
+              child: SafeArea(
                 child: SizedBox(
-                  height: 300,
                   width: double.infinity,
+                  child: Column(
+                    children: <Widget>[
+                      ButtonBar(
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(Icons.history),
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 36),
+                              child: Text(
+                                "R\$ 1,00",
+                                textAlign: TextAlign.end,
+                                style: Theme.of(context).textTheme.display2,
+                              ),
+                            ),
+                            Divider(
+                              indent: 16,
+                              endIndent: 16,
+                              thickness: 2,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 36),
+                              child: Text(
+                                "\$ 4,69",
+                                textAlign: TextAlign.end,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .display2
+                                    .copyWith(color: Theme.of(context).textTheme.body1.color),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+            ButtonBar(
+              buttonTextTheme: ButtonTextTheme.normal,
               children: <Widget>[
                 KeyboardButton(
                   value: "del",
