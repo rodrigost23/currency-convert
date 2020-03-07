@@ -1,3 +1,4 @@
+import 'package:currency_convert/widgets/keyboard_button.dart';
 import 'package:currency_convert/widgets/numbers_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -44,12 +45,21 @@ class _MyHomePageState extends State<MyHomePage> {
             SafeArea(
               child: Card(
                 child: SizedBox(
-                height: 300,
-                width: double.infinity,
-              ),
+                  height: 300,
+                  width: double.infinity,
+                ),
               ),
             ),
-            Expanded(child: SafeArea(child: NumbersGrid())),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                KeyboardButton(
+                  value: "del",
+                  child: Icon(Icons.backspace),
+                )
+              ],
+            ),
+            Expanded(child: NumbersGrid()),
           ],
         ),
       ),
