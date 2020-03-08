@@ -34,6 +34,11 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
     if (event is ConverterEdit) {
       var value = currentState.value;
 
+      // Clear input if already showed result
+      if (currentState is ConverterResulted) {
+        value = Money.fromInt(0, currentState.fromCurrency);
+      }
+
       // Typing a number
       if (event is ConverterAddNumber) {
         // Prevents from typing a number too big

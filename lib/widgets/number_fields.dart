@@ -36,7 +36,7 @@ class _NumberFieldsState extends State<NumberFields> {
               child: Text(
                 snapshot.value.toString(),
                 textAlign: TextAlign.end,
-                style: ConverterState is ConverterEditing ? inactiveText : activeText,
+                style: snapshot is ConverterResulted ? inactiveText : activeText,
               ),
             ),
             Divider(
