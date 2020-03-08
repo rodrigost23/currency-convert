@@ -36,8 +36,11 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
 
       // Typing a number
       if (event is ConverterAddNumber) {
-        value *= 10;
-        value = value + Money.fromInt(int.tryParse(event.number), currentState.fromCurrency);
+        // Prevents from typing a number too big
+        if (value.minorUnits.toString().length <= 8) {
+          value *= 10;
+          value = value + Money.fromInt(int.tryParse(event.number), currentState.fromCurrency);
+        }
 
         // Pressing backspace
       } else if (event is ConverterDeleteNumber) {
