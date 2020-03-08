@@ -17,7 +17,6 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
   Stream<ConverterState> skip(int count) => super.skip(count ?? 0);
 
   @override
-  // ConverterState get initialState => ConverterEditing(fromCurrency: "USD", toCurrency: "BRL");
   ConverterState get initialState => this._initialState;
 
   @override

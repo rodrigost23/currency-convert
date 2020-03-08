@@ -13,11 +13,11 @@ abstract class ConverterState extends Equatable {
   ConverterState({@required this.fromCurrency, @required this.toCurrency, Decimal value})
       : this.value = value ?? Decimal.fromInt(0);
 
-  ConverterState.fromState(ConverterState state)
+  ConverterState.fromState(ConverterState state, {value})
       : this(
           fromCurrency: state.fromCurrency,
           toCurrency: state.toCurrency,
-          value: state.value,
+          value: value ?? state.value,
         );
 
   @override
@@ -33,7 +33,7 @@ class ConverterEditing extends ConverterState {
           value: value,
         );
 
-  ConverterEditing.fromState(ConverterState state) : super.fromState(state);
+  ConverterEditing.fromState(ConverterState state, {Decimal value}) : super.fromState(state, value: value);
 
   ConverterEditing copyWith({fromCurrency, toCurrency, value}) => ConverterEditing(
         fromCurrency: fromCurrency ?? this.fromCurrency,
@@ -51,7 +51,7 @@ class ConverterLoading extends ConverterState {
           value: value,
         );
 
-  ConverterLoading.fromState(ConverterState state) : super.fromState(state);
+  ConverterLoading.fromState(ConverterState state, {Decimal value}) : super.fromState(state, value: value);
 
   ConverterLoading copyWith({fromCurrency, toCurrency, value}) => ConverterLoading(
         fromCurrency: fromCurrency ?? this.fromCurrency,
@@ -70,7 +70,7 @@ class ConverterResulted extends ConverterState {
           value: value,
         );
 
-  ConverterResulted.fromState(ConverterState state, {@required this.result}) : super.fromState(state);
+  ConverterResulted.fromState(ConverterState state, {Decimal value, @required this.result}) : super.fromState(state, value: value);
 
   ConverterResulted copyWith({fromCurrency, toCurrency, value, result}) => ConverterResulted(
         fromCurrency: fromCurrency ?? this.fromCurrency,
