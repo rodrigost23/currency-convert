@@ -1,5 +1,6 @@
-import 'package:currency_convert/widgets/keyboard_button.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/keyboard_button.dart';
 
 /// A calculator-like grid of numbers
 class NumbersGrid extends StatelessWidget {
@@ -14,9 +15,7 @@ class NumbersGrid extends StatelessWidget {
         String value = j < 8 ? (i - j).toString() : (i - j == -2 ? ',' : (i - j == 0 ? '=' : '0'));
 
         columnItems.add(
-          Expanded(
-            child: KeyboardButton(text: value)
-          ),
+          Expanded(child: KeyboardButton(text: value)),
         );
       }
 
