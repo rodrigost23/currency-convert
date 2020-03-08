@@ -57,7 +57,8 @@ class _HomePageState extends State<HomePage> {
                 buttonTextTheme: ButtonTextTheme.normal,
                 children: <Widget>[
                   KeyboardButton(
-                    value: "del",
+                    value: ConverterEvent.commandDelete,
+                    longPressValue: ConverterEvent.commandClear,
                     child: Icon(Icons.backspace),
                   )
                 ],

@@ -25,13 +25,32 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
     ConverterEvent event,
   ) async* {
     var currentState = this.state;
+
+    // Any editing event
     if (event is ConverterEdit) {
       var value = currentState.value;
+
+      // Typing a number
       if (event is ConverterAddNumber) {
         value = Decimal.parse(value.toStringAsFixed(2) + event.number);
         value *= Decimal.fromInt(10);
+
+        // Pressing backspace
+      } else if (event is ConverterDeleteNumber) {
+        var valueStr = value.toStringAsFixed(2);
+        valueStr = valueStr.substring(0, valueStr.length - 1);
+
+        value = Decimal.parse(valueStr);
+        value /= Decimal.fromInt(10);
+
+        // Long-pressing backspace
+      } else if (event is ConverterClear) {
+        value = Decimal.zero;
       }
+
       yield ConverterEditing.fromState(currentState, value: value);
+
+      // Pressing equals
     } else if (event is ConverterCalculate) {
       yield ConverterResulted.fromState(currentState, result: Decimal.fromInt(2));
     }
