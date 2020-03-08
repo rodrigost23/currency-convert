@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:decimal/decimal.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -16,6 +17,7 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
   Stream<ConverterState> skip(int count) => super.skip(count ?? 0);
 
   @override
+  // ConverterState get initialState => ConverterEditing(fromCurrency: "USD", toCurrency: "BRL");
   ConverterState get initialState => this._initialState;
 
   @override
@@ -26,7 +28,7 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
     if (event is ConverterEdit) {
       yield ConverterEditing.fromState(currentState);
     } else if (event is ConverterCalculate) {
-      yield ConverterResulted.fromState(currentState);
+      yield ConverterResulted.fromState(currentState, result: Decimal.fromInt(2));
     }
     return;
   }
