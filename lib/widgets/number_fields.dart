@@ -1,6 +1,6 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:money2/money2.dart';
 
 import '../bloc/converter_bloc.dart';
 
@@ -16,9 +16,9 @@ class _NumberFieldsState extends State<NumberFields> {
   Widget build(BuildContext context) {
     var inactiveText = Theme.of(context).textTheme.display2;
     var activeText = inactiveText.copyWith(color: Theme.of(context).textTheme.body1.color);
-    var result = Decimal.zero;
 
     return BlocBuilder<ConverterBloc, ConverterState>(builder: (context, snapshot) {
+      var result = Money.fromInt(0, snapshot.toCurrency);
       if (snapshot is ConverterResulted) {
         result = snapshot.result;
       }
@@ -33,7 +33,7 @@ class _NumberFieldsState extends State<NumberFields> {
               height: 100,
               alignment: AlignmentDirectional.centerEnd,
               child: Text(
-                snapshot.value.toStringAsFixed(2),
+                snapshot.value.toString(),
                 textAlign: TextAlign.end,
                 style: ConverterState is ConverterEditing ? inactiveText : activeText,
               ),
@@ -51,7 +51,7 @@ class _NumberFieldsState extends State<NumberFields> {
                 opacity: snapshot is ConverterResulted ? 1 : 0,
                 duration: Duration(milliseconds: 100),
                 child: Text(
-                  result.toStringAsFixed(2),
+                  result.toString(),
                   textAlign: TextAlign.end,
                   style: activeText,
                 ),

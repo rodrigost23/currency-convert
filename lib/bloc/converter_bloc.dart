@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:decimal/decimal.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:money2/money2.dart';
 
 part 'converter_event.dart';
 part 'converter_state.dart';
@@ -32,27 +32,24 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
 
       // Typing a number
       if (event is ConverterAddNumber) {
-        value = Decimal.parse(value.toStringAsFixed(2) + event.number);
-        value *= Decimal.fromInt(10);
+        value *= 10;
+        value = value + Money.fromInt(int.tryParse(event.number), currentState.fromCurrency);
 
         // Pressing backspace
       } else if (event is ConverterDeleteNumber) {
-        var valueStr = value.toStringAsFixed(2);
-        valueStr = valueStr.substring(0, valueStr.length - 1);
-
-        value = Decimal.parse(valueStr);
-        value /= Decimal.fromInt(10);
+        var minorDigits = value.minorUnits ~/ BigInt.from(10);
+        value = Money.fromBigInt(minorDigits, currentState.fromCurrency);
 
         // Long-pressing backspace
       } else if (event is ConverterClear) {
-        value = Decimal.zero;
+        value = Money.fromInt(0, currentState.fromCurrency);
       }
 
       yield ConverterEditing.fromState(currentState, value: value);
 
       // Pressing equals
     } else if (event is ConverterCalculate) {
-      yield ConverterResulted.fromState(currentState, result: Decimal.fromInt(2));
+      yield ConverterResulted.fromState(currentState, result: currentState.value.exchangeTo(Money.fromInt(100, currentState.toCurrency)));
     }
     return;
   }
