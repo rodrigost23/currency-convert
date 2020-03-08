@@ -31,10 +31,22 @@ class ConversionLogEntry extends Equatable {
   /// Returns a new instance from the Json data provided
   static ConversionLogEntry fromJson(Map<String, dynamic> data) {
     var fromCurrency = Currencies.find(data['fromCurrency']['code']) ??
-        Currency.create(data['fromCurrency']['code'], 2, invertSeparators: true, pattern: "S #.##0,00");
+        Currency.create(
+          data['fromCurrency']['code'],
+          2,
+          symbol: data['fromCurrency']['symbol'],
+          invertSeparators: true,
+          pattern: "S #.##0,00",
+        );
 
     var toCurrency = Currencies.find(data['toCurrency']['code']) ??
-        Currency.create(data['toCurrency']['code'], 2, invertSeparators: true, pattern: "S #.##0,00");
+        Currency.create(
+          data['toCurrency']['code'],
+          2,
+          symbol: data['toCurrency']['symbol'],
+          invertSeparators: true,
+          pattern: "S #.##0,00",
+        );
 
     var input = (data['input'] as String).replaceFirst(".", ",");
 
@@ -47,4 +59,8 @@ class ConversionLogEntry extends Equatable {
       result: toCurrency.parse(result, pattern: "0,00"),
     );
   }
+
+  @override
+  String toString() =>
+      "ConversionLogEntry: " + timestamp.toString() + ": " + input.toString() + " -> " + result.toString();
 }
