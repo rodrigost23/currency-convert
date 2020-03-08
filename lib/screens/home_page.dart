@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../screens/history_page.dart';
 import '../widgets/keyboard_button.dart';
+import '../widgets/number_fields.dart';
 import '../widgets/numbers_grid.dart';
 
 class HomePage extends StatefulWidget {
@@ -40,38 +41,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 36),
-                              child: Text(
-                                "R\$ 1,00",
-                                textAlign: TextAlign.end,
-                                style: Theme.of(context).textTheme.display2,
-                              ),
-                            ),
-                            Divider(
-                              indent: 16,
-                              endIndent: 16,
-                              thickness: 2,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 36),
-                              child: Text(
-                                "\$ 4,69",
-                                textAlign: TextAlign.end,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .display2
-                                    .copyWith(color: Theme.of(context).textTheme.body1.color),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
+                      NumberFields(),
                     ],
                   ),
                 ),
