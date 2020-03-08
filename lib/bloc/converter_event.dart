@@ -36,8 +36,12 @@ abstract class ConverterEvent extends Equatable {
   }
 }
 
+abstract class ConverterEdit extends ConverterEvent {
+  const ConverterEdit();
+}
+
 /// Adds a number to the edit field
-class ConverterAddNumber extends ConverterEvent {
+class ConverterAddNumber extends ConverterEdit {
   final String number;
 
   const ConverterAddNumber(this.number);
@@ -47,12 +51,12 @@ class ConverterAddNumber extends ConverterEvent {
 }
 
 /// Deletes the last number of the edit field
-class ConverterDeleteNumber extends ConverterEvent {
+class ConverterDeleteNumber extends ConverterEdit {
   const ConverterDeleteNumber();
 }
 
 /// Clears the whole conversion
-class ConverterClear extends ConverterEvent {
+class ConverterClear extends ConverterEdit {
   const ConverterClear();
 }
 
