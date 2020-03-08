@@ -8,6 +8,7 @@ import '../screens/history_page.dart';
 import '../widgets/keyboard_button.dart';
 import '../widgets/number_fields.dart';
 import '../widgets/numbers_grid.dart';
+import '../repository/converter_repository.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -24,8 +25,10 @@ class _HomePageState extends State<HomePage> {
     return AnnotatedRegion(
       child: BlocProvider(
         create: (context) => ConverterBloc(
-            //TODO: Get initial conversion currencies from user prefs
-            ConverterEditing(fromCurrency: Currencies.find("USD"), toCurrency: Currencies.find("BRL"))),
+          //TODO: Get initial conversion currencies from user prefs
+          ConverterEditing(fromCurrency: Currencies.find("USD"), toCurrency: Currencies.find("BRL")),
+          repository: RepositoryProvider.of<ConverterRepository>(context),
+        ),
         child: Scaffold(
           body: Column(
             children: <Widget>[

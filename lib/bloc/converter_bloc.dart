@@ -6,13 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:money2/money2.dart';
 
+import '../repository/converter_repository.dart';
+
 part 'converter_event.dart';
 part 'converter_state.dart';
 
 class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
   final ConverterEditing _initialState;
+  final ConverterRepository repository;
 
-  ConverterBloc(ConverterEditing initialState) : this._initialState = initialState;
+  ConverterBloc(ConverterEditing initialState, {@required this.repository})
+      : this._initialState = initialState;
 
   @override
   Stream<ConverterState> skip(int count) => super.skip(count ?? 0);
@@ -49,7 +53,10 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
 
       // Pressing equals
     } else if (event is ConverterCalculate) {
-      yield ConverterResulted.fromState(currentState, result: currentState.value.exchangeTo(Money.fromInt(100, currentState.toCurrency)));
+      yield ConverterLoading.fromState(currentState);
+
+      var result = await repository.getConversion(currentState.value, currentState.toCurrency);
+      yield ConverterResulted.fromState(currentState, result: result);
     }
     return;
   }

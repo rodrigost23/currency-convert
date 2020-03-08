@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money2/money2.dart';
 
+import 'repository/converter_api_client.dart';
+import 'repository/converter_repository.dart';
 import 'screens/home_page.dart';
 
 void main() {
@@ -30,13 +33,16 @@ class MyApp extends StatelessWidget {
       Currency.create('BRL', 2, symbol: 'R\$', invertSeparators: true, pattern: currencyPattern),
     ]);
 
-    return MaterialApp(
-      title: 'Conversor de Moedas',
-      theme: ThemeData(
-        // This is the theme of your application.
-        primarySwatch: Colors.blue,
+    return RepositoryProvider<ConverterRepository>(
+      create: (context) => ConverterApiClient(),
+      child: MaterialApp(
+        title: 'Conversor de Moedas',
+        theme: ThemeData(
+          // This is the theme of your application.
+          primarySwatch: Colors.blue,
+        ),
+        home: HomePage(title: 'Conversor de Moedas'),
       ),
-      home: HomePage(title: 'Conversor de Moedas'),
     );
   }
 }
