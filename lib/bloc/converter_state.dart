@@ -21,7 +21,7 @@ abstract class ConverterState extends Equatable {
         );
 
   @override
-  List<Object> get props => [fromCurrency, toCurrency];
+  List<Object> get props => [fromCurrency, toCurrency, value];
 }
 
 /// State for then the number to convert is being edited
@@ -69,6 +69,9 @@ class ConverterResulted extends ConverterState {
           toCurrency: toCurrency,
           value: value,
         );
+
+  @override
+  List<Object> get props => super.props + [result];
 
   ConverterResulted.fromState(ConverterState state, {Decimal value, @required this.result}) : super.fromState(state, value: value);
 

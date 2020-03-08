@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:decimal/decimal.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 part 'converter_event.dart';
@@ -25,7 +26,12 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
   ) async* {
     var currentState = this.state;
     if (event is ConverterEdit) {
-      yield ConverterEditing.fromState(currentState);
+      var value = currentState.value;
+      if (event is ConverterAddNumber) {
+        value = Decimal.parse(value.toStringAsFixed(2) + event.number);
+        value *= Decimal.fromInt(10);
+      }
+      yield ConverterEditing.fromState(currentState, value: value);
     } else if (event is ConverterCalculate) {
       yield ConverterResulted.fromState(currentState, result: Decimal.fromInt(2));
     }
