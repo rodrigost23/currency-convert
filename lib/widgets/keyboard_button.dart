@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/converter_bloc.dart';
 
 /// The buttons in the calculator-like keyboard
 class KeyboardButton extends StatelessWidget {
@@ -12,15 +15,20 @@ class KeyboardButton extends StatelessWidget {
   ///
   /// If the [value] argument is null, the value defaults to the defined in [text].
   /// Instead, if [child] is provided, then [value] may not be null.
-  KeyboardButton({this.text, this.child, this.value, Key key})
+  KeyboardButton({this.text, this.child, value, Key key})
       : assert(text != null || child != null),
         assert(child == null || value != null),
+        this.value = value ?? text,
         super(key: key);
 
   @override
-  Widget build(BuildContext context) => FlatButton(
+  Widget build(BuildContext context) {
+    //ignore: close_sinks
+    var bloc = BlocProvider.of<ConverterBloc>(context);
+
+    return FlatButton(
       onPressed: () {
-        // TODO: Send this.value if it's not null, otherwise send this.text
+        bloc.add(ConverterEvent.getEventFromCommand(this.value));
       },
       shape: CircleBorder(),
       padding: EdgeInsets.all(24),
@@ -31,4 +39,5 @@ class KeyboardButton extends StatelessWidget {
             )
           : this.child,
     );
+  }
 }
