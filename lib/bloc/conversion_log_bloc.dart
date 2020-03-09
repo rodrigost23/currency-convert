@@ -26,12 +26,14 @@ class ConversionLogBloc extends Bloc<ConversionLogEvent, ConversionLogState> {
     if (event is ConversionLogFetch) {
       try {
         if (currentState is ConversionLogInitial) {
+          yield ConversionLogInitialLoading();
           final entries = await repository.getConversionLog();
           yield ConversionLogLoaded(entries: entries);
           return;
         }
 
         if (currentState is ConversionLogLoaded) {
+          yield ConversionLogRefreshing.fromState(currentState);
           final entries = await repository.getConversionLog();
           yield ConversionLogLoaded(entries: entries);
         }

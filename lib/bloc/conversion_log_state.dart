@@ -9,6 +9,8 @@ class ConversionLogInitial extends ConversionLogState {
   List<Object> get props => [];
 }
 
+class ConversionLogInitialLoading extends ConversionLogInitial {}
+
 class ConversionLogLoaded extends ConversionLogState {
   final List<ConversionLogEntry> entries;
 
@@ -24,6 +26,10 @@ class ConversionLogLoaded extends ConversionLogState {
         entries: entries ?? this.entries,
         hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       );
+}
+
+class ConversionLogRefreshing extends ConversionLogLoaded {
+  ConversionLogRefreshing.fromState(ConversionLogLoaded state) : super(entries: List.of(state.entries));
 }
 
 class ConversionLogError extends ConversionLogState {

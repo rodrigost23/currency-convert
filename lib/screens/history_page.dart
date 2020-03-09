@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:currency_convert/bloc/converter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,6 +17,7 @@ class HistoryPage extends StatefulWidget {
 class _HistoryPageState extends State<HistoryPage> {
   //ignore:close_sinks
   ConversionLogBloc _bloc;
+  Completer _completer = Completer();
 
   @override
   void initState() {
@@ -37,6 +41,11 @@ class _HistoryPageState extends State<HistoryPage> {
           bloc: _bloc,
           builder: (context, state) {
             if (state is ConversionLogLoaded) {
+              if (state is! ConversionLogRefreshing) {
+                _completer.complete(true);
+                _completer = Completer();
+              }
+
               return ListView.builder(
                 itemBuilder: (context, index) =>
                     index >= state.entries.length ? null : Text(state.entries[index].toString()),
@@ -47,8 +56,8 @@ class _HistoryPageState extends State<HistoryPage> {
           },
         ),
         onRefresh: () {
-          // TODO: return real Future
-          return Future.value(true);
+          _bloc.add(ConversionLogFetch());
+          return _completer.future;
         },
       ),
     );
