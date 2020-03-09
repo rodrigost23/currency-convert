@@ -3,7 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:money2/money2.dart';
 
 class CurrencyPicker extends StatefulWidget {
-  CurrencyPicker({Key key}) : super(key: key);
+  final Currency selectedItem;
+  final Function(Currency) onChanged;
+
+  CurrencyPicker({
+    @required this.selectedItem,
+    @required this.onChanged,
+    Key key,
+  }) : super(key: key);
 
   @override
   _CurrencyPickerState createState() => _CurrencyPickerState();
@@ -21,7 +28,7 @@ class _CurrencyPickerState extends State<CurrencyPicker> {
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButton<Currency>(
-        value: currencies.keys.first,
+        value: widget.selectedItem,
         items: currencies.entries
             .map(
               (entry) => DropdownMenuItem(
@@ -36,7 +43,7 @@ class _CurrencyPickerState extends State<CurrencyPicker> {
               ),
             )
             .toList(),
-        onChanged: (_) {},
+        onChanged: widget.onChanged,
       ),
     );
   }

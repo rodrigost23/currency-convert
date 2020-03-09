@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:money2/money2.dart';
 import 'package:skeleton_text/skeleton_text.dart';
 
 import 'currency_picker.dart';
@@ -8,10 +9,14 @@ class NumberField extends StatelessWidget {
   final Color color;
   final bool loading;
   final bool hidden;
+  final Currency currency;
+  final Function(Currency) onCurrencySelected;
 
   const NumberField({
     Key key,
     @required this.text,
+    @required this.currency,
+    @required this.onCurrencySelected,
     this.color,
     this.loading = false,
     this.hidden = false,
@@ -28,7 +33,10 @@ class NumberField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Row(
         children: <Widget>[
-          CurrencyPicker(),
+          CurrencyPicker(
+            selectedItem: currency,
+            onChanged: onCurrencySelected,
+          ),
           Expanded(
             child: Container(
               padding: EdgeInsetsDirectional.only(start: 8),
