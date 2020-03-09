@@ -32,53 +32,61 @@ class _HomePageState extends State<HomePage> {
         child: Scaffold(
           body: Column(
             children: <Widget>[
-              Card(
-                margin: EdgeInsets.all(0),
-                shape: Border(),
-                child: SafeArea(
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Column(
-                      children: <Widget>[
-                        ButtonBar(
-                          children: <Widget>[
-                            IconButton(
-                              icon: Icon(Icons.history),
-                              onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => HistoryPage()),
+              Expanded(
+                child: Card(
+                  margin: EdgeInsets.all(0),
+                  shape: Border(),
+                  child: SafeArea(
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Column(
+                        children: <Widget>[
+                          ButtonBar(
+                            children: <Widget>[
+                              IconButton(
+                                icon: Icon(Icons.history),
+                                onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => HistoryPage()),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        NumberFields(),
-                      ],
+                            ],
+                          ),
+                          NumberFields(),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-              Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: BlocBuilder<ConverterBloc, ConverterState>(
-                      builder: (context, state) {
-                        return Text(
-                          state is ConverterError ? state.details : "",
-                          style: Theme.of(context).textTheme.body2.copyWith(color: Theme.of(context).errorColor),
-                        );
-                      }
+              SizedBox(
+                  height: 460,
+                  width: double.infinity,
+                  child: Column(children: [
+                    Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: BlocBuilder<ConverterBloc, ConverterState>(builder: (context, state) {
+                            return Text(
+                              state is ConverterError ? state.details : "",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .body2
+                                  .copyWith(color: Theme.of(context).errorColor),
+                            );
+                          }),
+                        ),
+                        Spacer(),
+                        KeyboardButton(
+                          value: ConverterEvent.commandDelete,
+                          longPressValue: ConverterEvent.commandClear,
+                          child: Icon(Icons.backspace),
+                        )
+                      ],
                     ),
-                  ),
-                  Spacer(),
-                  KeyboardButton(
-                    value: ConverterEvent.commandDelete,
-                    longPressValue: ConverterEvent.commandClear,
-                    child: Icon(Icons.backspace),
-                  )
-                ],
-              ),
-              Expanded(child: NumbersGrid()),
+                    Expanded(child: NumbersGrid()),
+                  ]))
             ],
           ),
         ),

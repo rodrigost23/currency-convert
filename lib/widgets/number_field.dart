@@ -41,7 +41,6 @@ class NumberField extends StatelessWidget {
           Expanded(
             child: Container(
               padding: EdgeInsetsDirectional.only(start: 8),
-              height: 100,
               alignment: AlignmentDirectional.centerEnd,
               child: AnimatedSwitcher(
                 duration: Duration(milliseconds: 200),

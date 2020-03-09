@@ -25,31 +25,34 @@ class _NumberFieldsState extends State<NumberFields> {
         result = snapshot.error;
       }
 
-      return SizedBox(
-        width: double.infinity,
+      return Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            NumberField(
-              text: snapshot.value.toString(),
-              currency: snapshot.fromCurrency,
-              onCurrencySelected: (currency) =>
-                  BlocProvider.of<ConverterBloc>(context).add(ConverterChangeFromCurrency(currency)),
-              color: snapshot is ConverterResulted ? inactiveColor : null,
+            Expanded(
+              child: NumberField(
+                text: snapshot.value.toString(),
+                currency: snapshot.fromCurrency,
+                onCurrencySelected: (currency) =>
+                    BlocProvider.of<ConverterBloc>(context).add(ConverterChangeFromCurrency(currency)),
+                color: snapshot is ConverterResulted ? inactiveColor : null,
+              ),
             ),
             Divider(
               indent: 16,
               endIndent: 16,
               thickness: 2,
             ),
-            NumberField(
-              text: result,
-              currency: snapshot.toCurrency,
-              onCurrencySelected: (currency) =>
-                  BlocProvider.of<ConverterBloc>(context).add(ConverterChangeToCurrency(currency)),
-              loading: snapshot is ConverterLoading,
-              hidden: snapshot is! ConverterResulted && snapshot is! ConverterError,
-              color: snapshot is ConverterError ? Theme.of(context).errorColor : null,
+            Expanded(
+              child: NumberField(
+                text: result,
+                currency: snapshot.toCurrency,
+                onCurrencySelected: (currency) =>
+                    BlocProvider.of<ConverterBloc>(context).add(ConverterChangeToCurrency(currency)),
+                loading: snapshot is ConverterLoading,
+                hidden: snapshot is! ConverterResulted && snapshot is! ConverterError,
+                color: snapshot is ConverterError ? Theme.of(context).errorColor : null,
+              ),
             ),
           ],
         ),
