@@ -40,21 +40,34 @@ class _HistoryPageState extends State<HistoryPage> {
         child: BlocBuilder<ConversionLogBloc, ConversionLogState>(
           bloc: _bloc,
           builder: (context, state) {
-            if (state is ConversionLogLoaded) {
-              if (state is! ConversionLogRefreshing) {
-                _completer.complete(true);
-                _completer = Completer();
-              }
-
-              return ListView.separated(
-                padding: EdgeInsets.symmetric(horizontal: 24),
-                  itemCount: state.entries.length,
-                  separatorBuilder: (context, index) => Divider(indent: 24, endIndent: 24),
-                  itemBuilder: (context, index) =>
-                      index >= state.entries.length ? null : LogEntryWidget(state.entries[index]));
-            } else {
-              return Container();
+            if (state is! ConversionLogRefreshing) {
+              _completer.complete(true);
+              _completer = Completer();
             }
+
+            return AnimatedSwitcher(
+                duration: Duration(milliseconds: 200),
+                child: state is ConversionLogLoaded
+                    ? (state.entries.length > 0
+                        ? ListView.separated(
+                            padding: EdgeInsets.symmetric(horizontal: 24),
+                            itemCount: state.entries.length,
+                            separatorBuilder: (context, index) => Divider(indent: 24, endIndent: 24),
+                            itemBuilder: (context, index) =>
+                                index >= state.entries.length ? null : LogEntryWidget(state.entries[index]),
+                          )
+                        : Center(
+                            child: Text(
+                            "Nenhum item",
+                            style: Theme.of(context).textTheme.display1,
+                          )))
+                    : (state is ConversionLogInitial
+                        ? Center(child: CircularProgressIndicator())
+                        : Center(
+                            child: Text(
+                            "ERRO",
+                            style: Theme.of(context).textTheme.display1,
+                          ))));
           },
         ),
         onRefresh: () {
