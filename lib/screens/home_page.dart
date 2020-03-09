@@ -57,9 +57,20 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              ButtonBar(
-                buttonTextTheme: ButtonTextTheme.normal,
+              Row(
                 children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: BlocBuilder<ConverterBloc, ConverterState>(
+                      builder: (context, state) {
+                        return Text(
+                          state is ConverterError ? state.details : "",
+                          style: Theme.of(context).textTheme.body2.copyWith(color: Theme.of(context).errorColor),
+                        );
+                      }
+                    ),
+                  ),
+                  Spacer(),
                   KeyboardButton(
                     value: ConverterEvent.commandDelete,
                     longPressValue: ConverterEvent.commandClear,

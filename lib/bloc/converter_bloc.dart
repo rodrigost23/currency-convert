@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
@@ -88,7 +89,7 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
         var result = await repository.getConversion(currentState.value, currentState.toCurrency);
         yield ConverterResulted.fromState(currentState, result: result);
       } catch (e) {
-        yield _exceptionToState(currentState, exception: e);
+        yield _exceptionToState(currentState, error: e);
       }
     }
   }
@@ -118,9 +119,18 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
     );
   }
 
-  ConverterError _exceptionToState(ConverterState state, {Exception exception}) {
-    var error = "ERRO";
-
-    return ConverterError.fromState(state, error: error);
+  ConverterError _exceptionToState(ConverterState state, {error}) {
+    var errorMessage = "ERRO";
+    String details;
+    if (error is DioError) {
+      if (error.type == DioErrorType.CONNECT_TIMEOUT) {
+        details = "Servidor fora de alcance";
+      } else if (error.error is SocketException && error.error.osError.errorCode == 101) {
+        details = "Verifique sua conexão";
+      }
+    } else {
+      debugPrint(error.toString());
+    }
+    return ConverterError.fromState(state, error: errorMessage, details: details);
   }
 }
