@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:currency_convert/bloc/converter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/conversion_log_bloc.dart';
 import '../repository/converter_repository.dart';
+import '../widgets/log_entry.dart';
 
 class HistoryPage extends StatefulWidget {
   HistoryPage({Key key}) : super(key: key);
@@ -47,9 +47,8 @@ class _HistoryPageState extends State<HistoryPage> {
               }
 
               return ListView.builder(
-                itemBuilder: (context, index) =>
-                    index >= state.entries.length ? null : Text(state.entries[index].toString()),
-              );
+                  itemBuilder: (context, index) =>
+                      index >= state.entries.length ? null : LogEntryWidget(state.entries[index]));
             } else {
               return Container();
             }
