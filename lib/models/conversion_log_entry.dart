@@ -55,7 +55,7 @@ class ConversionLogEntry extends Equatable {
     return ConversionLogEntry(
       timestamp: DateTime.parse(data['timestamp']['date'] + data['timestamp']['timezone']),
       fromCurrency: fromCurrency,
-      input: toCurrency.parse(input, pattern: "0,00"),
+      input: fromCurrency.parse(input, pattern: "0,00"),
       result: toCurrency.parse(result, pattern: "0,00"),
     );
   }
