@@ -31,7 +31,8 @@ class _NumberFieldsState extends State<NumberFields> {
             NumberField(
               text: snapshot.value.toString(),
               currency: snapshot.fromCurrency,
-              onCurrencySelected: (currency) {},
+              onCurrencySelected: (currency) =>
+                  BlocProvider.of<ConverterBloc>(context).add(ConverterChangeFromCurrency(currency)),
               color: snapshot is ConverterResulted ? inactiveColor : null,
             ),
             Divider(
@@ -42,7 +43,8 @@ class _NumberFieldsState extends State<NumberFields> {
             NumberField(
               text: result.toString(),
               currency: snapshot.toCurrency,
-              onCurrencySelected: (currency) {},
+              onCurrencySelected: (currency) =>
+                  BlocProvider.of<ConverterBloc>(context).add(ConverterChangeToCurrency(currency)),
               loading: snapshot is ConverterLoading,
               hidden: snapshot is! ConverterResulted,
             ),

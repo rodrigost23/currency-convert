@@ -58,14 +58,59 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
       }
 
       yield ConverterEditing.fromState(currentState, value: value);
+      return;
+    }
 
-      // Pressing equals
-    } else if (event is ConverterCalculate) {
+    // Change currency
+    if (event is ConverterChangeCurrency) {
+      /// Is the input currency being changed? If false, the output is.
+      var changeFromCurrency = event is ConverterChangeFromCurrency;
+
+      // If the currency being changed is the same as the other one
+      if (event.currency == (changeFromCurrency ? currentState.toCurrency : currentState.fromCurrency)) {
+        yield _swapCurrencies(currentState);
+      } else {
+        yield _changeCurrencies(
+          currentState,
+          input: changeFromCurrency ? event.currency : null,
+          output: changeFromCurrency ? null : event.currency,
+        );
+      }
+      return;
+    }
+
+    // Pressing equals
+    if (event is ConverterCalculate) {
       yield ConverterLoading.fromState(currentState);
 
       var result = await repository.getConversion(currentState.value, currentState.toCurrency);
       yield ConverterResulted.fromState(currentState, result: result);
+      return;
     }
-    return;
+  }
+
+  /// Swap input and output currencies with each other
+  ConverterState _swapCurrencies<T extends ConverterState>(T state) {
+    if (state is ConverterResulted) {
+      return ConverterResulted(
+        fromCurrency: state.toCurrency,
+        toCurrency: state.fromCurrency,
+        value: state.result,
+        result: state.value,
+      );
+    }
+    return ConverterEditing(
+        fromCurrency: state.toCurrency,
+        toCurrency: state.fromCurrency,
+        value: state.value.exchangeTo(Money.from(1, state.toCurrency)));
+  }
+
+  /// Change currencies, while converting the display format
+  ConverterEditing _changeCurrencies(ConverterState state, {Currency input, Currency output}) {
+    return ConverterEditing.fromState(state).copyWith(
+      fromCurrency: input,
+      toCurrency: output,
+      value: state.value.exchangeTo(Money.from(1, state.fromCurrency)),
+    );
   }
 }

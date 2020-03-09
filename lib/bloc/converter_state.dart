@@ -35,7 +35,12 @@ class ConverterEditing extends ConverterState {
 
   ConverterEditing.fromState(ConverterState state, {Money value}) : super.fromState(state, value: value);
 
-  ConverterEditing copyWith({fromCurrency, toCurrency, value}) => ConverterEditing(
+  ConverterEditing copyWith({
+    Currency fromCurrency,
+    Currency toCurrency,
+    Money value,
+  }) =>
+      ConverterEditing(
         fromCurrency: fromCurrency ?? this.fromCurrency,
         toCurrency: toCurrency ?? this.toCurrency,
         value: value ?? this.value,
@@ -73,7 +78,8 @@ class ConverterResulted extends ConverterState {
   @override
   List<Object> get props => super.props + [result];
 
-  ConverterResulted.fromState(ConverterState state, {Money value, @required this.result}) : super.fromState(state, value: value);
+  ConverterResulted.fromState(ConverterState state, {Money value, @required this.result})
+      : super.fromState(state, value: value);
 
   ConverterResulted copyWith({fromCurrency, toCurrency, value, result}) => ConverterResulted(
         fromCurrency: fromCurrency ?? this.fromCurrency,

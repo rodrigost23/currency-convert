@@ -65,18 +65,21 @@ class ConverterCalculate extends ConverterEvent {
   const ConverterCalculate();
 }
 
-/// Change the currency from which to convert
-class ConverterChangeFromCurrency extends ConverterEvent {
+/// Change either one of the currencies
+abstract class ConverterChangeCurrency extends ConverterEvent {
   final Currency currency;
 
-  const ConverterChangeFromCurrency(this.currency);
+  const ConverterChangeCurrency(this.currency);
+}
+
+/// Change the currency from which to convert
+class ConverterChangeFromCurrency extends ConverterChangeCurrency {
+  const ConverterChangeFromCurrency(currency) : super(currency);
 }
 
 /// Change the currency to which to convert
-class ConverterChangeToCurrency extends ConverterEvent {
-  final Currency currency;
-
-  const ConverterChangeToCurrency(this.currency);
+class ConverterChangeToCurrency extends ConverterChangeCurrency {
+  const ConverterChangeToCurrency(currency) : super(currency);
 }
 
 /// Swap input and output currencies with each other
