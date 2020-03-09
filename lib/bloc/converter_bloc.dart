@@ -63,6 +63,11 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
       return;
     }
 
+    if (event is ConverterFocus) {
+      yield ConverterEditing.fromState(currentState);
+      return;
+    }
+
     // Change currency
     if (event is ConverterChangeCurrency) {
       /// Is the input currency being changed? If false, the output is.

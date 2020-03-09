@@ -59,6 +59,10 @@ class ConverterDeleteNumber extends ConverterEdit {
 class ConverterClear extends ConverterEdit {
   const ConverterClear();
 }
+/// Focuses in the editing field
+class ConverterFocus extends ConverterEvent {
+  const ConverterFocus();
+}
 
 /// Calculates the conversion
 class ConverterCalculate extends ConverterEvent {

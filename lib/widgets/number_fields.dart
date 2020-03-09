@@ -18,11 +18,11 @@ class _NumberFieldsState extends State<NumberFields> {
     Color inactiveColor = Theme.of(context).unselectedWidgetColor;
     var result = Money.fromInt(0, BlocProvider.of<ConverterBloc>(context).state.toCurrency).toString();
 
-    return BlocBuilder<ConverterBloc, ConverterState>(builder: (context, snapshot) {
-      if (snapshot is ConverterResulted) {
-        result = snapshot.result.toString();
-      } else if (snapshot is ConverterError) {
-        result = snapshot.error;
+    return BlocBuilder<ConverterBloc, ConverterState>(builder: (context, state) {
+      if (state is ConverterResulted) {
+        result = state.result.toString();
+      } else if (state is ConverterError) {
+        result = state.error;
       }
 
       return Expanded(
@@ -31,11 +31,14 @@ class _NumberFieldsState extends State<NumberFields> {
           children: <Widget>[
             Expanded(
               child: NumberField(
-                text: snapshot.value.toString(),
-                currency: snapshot.fromCurrency,
+                text: state.value.toString(),
+                currency: state.fromCurrency,
                 onCurrencySelected: (currency) =>
                     BlocProvider.of<ConverterBloc>(context).add(ConverterChangeFromCurrency(currency)),
-                color: snapshot is ConverterResulted ? inactiveColor : null,
+                color: state is ConverterResulted ? inactiveColor : null,
+                onTap: state is ConverterResulted
+                    ? () => BlocProvider.of<ConverterBloc>(context).add(ConverterFocus())
+                    : null,
               ),
             ),
             Divider(
@@ -46,12 +49,12 @@ class _NumberFieldsState extends State<NumberFields> {
             Expanded(
               child: NumberField(
                 text: result,
-                currency: snapshot.toCurrency,
+                currency: state.toCurrency,
                 onCurrencySelected: (currency) =>
                     BlocProvider.of<ConverterBloc>(context).add(ConverterChangeToCurrency(currency)),
-                loading: snapshot is ConverterLoading,
-                hidden: snapshot is! ConverterResulted && snapshot is! ConverterError,
-                color: snapshot is ConverterError ? Theme.of(context).errorColor : null,
+                loading: state is ConverterLoading,
+                hidden: state is! ConverterResulted && state is! ConverterError,
+                color: state is ConverterError ? Theme.of(context).errorColor : null,
               ),
             ),
           ],
