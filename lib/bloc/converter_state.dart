@@ -88,3 +88,16 @@ class ConverterResulted extends ConverterState {
         result: result ?? this.result,
       );
 }
+
+/// If there's an error
+class ConverterError extends ConverterState {
+  final String error;
+  final String details;
+
+  ConverterError.fromState(
+    ConverterState state, {
+    @required this.error,
+    this.details,
+    Money value,
+  }) : super.fromState(state, value: value);
+}

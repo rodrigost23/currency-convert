@@ -16,11 +16,13 @@ class _NumberFieldsState extends State<NumberFields> {
   @override
   Widget build(BuildContext context) {
     Color inactiveColor = Theme.of(context).unselectedWidgetColor;
-    var result = Money.fromInt(0, BlocProvider.of<ConverterBloc>(context).state.toCurrency);
+    var result = Money.fromInt(0, BlocProvider.of<ConverterBloc>(context).state.toCurrency).toString();
 
     return BlocBuilder<ConverterBloc, ConverterState>(builder: (context, snapshot) {
       if (snapshot is ConverterResulted) {
-        result = snapshot.result;
+        result = snapshot.result.toString();
+      } else if (snapshot is ConverterError) {
+        result = snapshot.error;
       }
 
       return SizedBox(
@@ -41,12 +43,13 @@ class _NumberFieldsState extends State<NumberFields> {
               thickness: 2,
             ),
             NumberField(
-              text: result.toString(),
+              text: result,
               currency: snapshot.toCurrency,
               onCurrencySelected: (currency) =>
                   BlocProvider.of<ConverterBloc>(context).add(ConverterChangeToCurrency(currency)),
               loading: snapshot is ConverterLoading,
-              hidden: snapshot is! ConverterResulted,
+              hidden: snapshot is! ConverterResulted && snapshot is! ConverterError,
+              color: snapshot is ConverterError ? Theme.of(context).errorColor : null,
             ),
           ],
         ),

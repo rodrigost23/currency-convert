@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -81,11 +82,14 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
 
     // Pressing equals
     if (event is ConverterCalculate) {
-      yield ConverterLoading.fromState(currentState);
+      try {
+        yield ConverterLoading.fromState(currentState);
 
-      var result = await repository.getConversion(currentState.value, currentState.toCurrency);
-      yield ConverterResulted.fromState(currentState, result: result);
-      return;
+        var result = await repository.getConversion(currentState.value, currentState.toCurrency);
+        yield ConverterResulted.fromState(currentState, result: result);
+      } catch (e) {
+        yield _exceptionToState(currentState, exception: e);
+      }
     }
   }
 
@@ -112,5 +116,11 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
       toCurrency: output,
       value: state.value.exchangeTo(Money.from(1, state.fromCurrency)),
     );
+  }
+
+  ConverterError _exceptionToState(ConverterState state, {Exception exception}) {
+    var error = "ERRO";
+
+    return ConverterError.fromState(state, error: error);
   }
 }
