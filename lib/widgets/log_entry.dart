@@ -10,8 +10,29 @@ class LogEntryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text("${logEntry.input} → ${logEntry.result}"),
-      subtitle: Text(DateFormat('dd/MM/yyyy HH:mm').format(logEntry.timestamp.toLocal())),
+      title: Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              "${logEntry.input}",
+              textAlign: TextAlign.start,
+              style: Theme.of(context).textTheme.headline,
+            ),
+          ),
+          Icon(Icons.arrow_right),
+          Expanded(
+            child: Text(
+              "${logEntry.result}",
+              textAlign: TextAlign.end,
+              style: Theme.of(context).textTheme.headline,
+            ),
+          ),
+        ],
+      ),
+      subtitle: Text(
+        DateFormat('dd/MM/yyyy HH:mm').format(logEntry.timestamp.toLocal()),
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }

@@ -46,7 +46,10 @@ class _HistoryPageState extends State<HistoryPage> {
                 _completer = Completer();
               }
 
-              return ListView.builder(
+              return ListView.separated(
+                padding: EdgeInsets.symmetric(horizontal: 24),
+                  itemCount: state.entries.length,
+                  separatorBuilder: (context, index) => Divider(indent: 24, endIndent: 24),
                   itemBuilder: (context, index) =>
                       index >= state.entries.length ? null : LogEntryWidget(state.entries[index]));
             } else {
