@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:money2/money2.dart';
-import 'package:skeleton_text/skeleton_text.dart';
 
 import '../bloc/converter_bloc.dart';
-import '../widgets/currency_picker.dart';
+import 'number_field.dart';
 
 class NumberFields extends StatefulWidget {
   NumberFields({Key key}) : super(key: key);
@@ -16,8 +15,7 @@ class NumberFields extends StatefulWidget {
 class _NumberFieldsState extends State<NumberFields> {
   @override
   Widget build(BuildContext context) {
-    var inactiveText = Theme.of(context).textTheme.display2;
-    var activeText = inactiveText.copyWith(color: Theme.of(context).textTheme.body1.color);
+    Color inactiveColor = Theme.of(context).unselectedWidgetColor;
     var result = Money.fromInt(0, BlocProvider.of<ConverterBloc>(context).state.toCurrency);
 
     return BlocBuilder<ConverterBloc, ConverterState>(builder: (context, snapshot) {
@@ -30,54 +28,19 @@ class _NumberFieldsState extends State<NumberFields> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                CurrencyPicker(),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  height: 100,
-                  alignment: AlignmentDirectional.centerEnd,
-                  child: Text(
-                    snapshot.value.toString(),
-                    textAlign: TextAlign.end,
-                    style: snapshot is ConverterResulted ? inactiveText : activeText,
-                  ),
-                ),
-              ],
+            NumberField(
+              text: snapshot.value.toString(),
+              color: snapshot is ConverterResulted ? inactiveColor : null,
             ),
             Divider(
               indent: 16,
               endIndent: 16,
               thickness: 2,
             ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              height: 100,
-              alignment: AlignmentDirectional.centerEnd,
-              child: AnimatedSwitcher(
-                duration: Duration(milliseconds: 200),
-                child: snapshot is ConverterLoading
-                    ? SkeletonAnimation(
-                        child: Container(
-                          child: Text(
-                            result.toString(),
-                            textAlign: TextAlign.end,
-                            style: activeText.copyWith(color: Colors.transparent),
-                          ),
-                          decoration:
-                              BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(8)),
-                        ),
-                      )
-                    : AnimatedOpacity(
-                        opacity: snapshot is ConverterResulted ? 1 : 0,
-                        duration: Duration(milliseconds: 100),
-                        child: Text(
-                          result.toString(),
-                          textAlign: TextAlign.end,
-                          style: activeText,
-                        ),
-                      ),
-              ),
+            NumberField(
+              text: result.toString(),
+              loading: snapshot is ConverterLoading,
+              hidden: snapshot is! ConverterResulted,
             ),
           ],
         ),
