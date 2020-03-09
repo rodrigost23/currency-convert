@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:money2/money2.dart';
 import 'package:skeleton_text/skeleton_text.dart';
@@ -59,11 +60,12 @@ class NumberField extends StatelessWidget {
                     : AnimatedOpacity(
                         opacity: hidden ? 0 : 1,
                         duration: Duration(milliseconds: 100),
-                        child: Text(
+                        child: AutoSizeText(
                           text,
                           textAlign: TextAlign.end,
                           softWrap: true,
                           style: color != null ? textStyle.copyWith(color: color) : textStyle,
+                          maxLines: 1,
                         ),
                       ),
               ),
