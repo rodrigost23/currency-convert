@@ -64,3 +64,20 @@ class ConverterClear extends ConverterEdit {
 class ConverterCalculate extends ConverterEvent {
   const ConverterCalculate();
 }
+
+/// Change the currency from which to convert
+class ConverterChangeFromCurrency extends ConverterEvent {
+  final Currency currency;
+
+  const ConverterChangeFromCurrency(this.currency);
+}
+
+/// Change the currency to which to convert
+class ConverterChangeToCurrency extends ConverterEvent {
+  final Currency currency;
+
+  const ConverterChangeToCurrency(this.currency);
+}
+
+/// Swap input and output currencies with each other
+class ConverterSwapCurrencies extends ConverterEvent {}
