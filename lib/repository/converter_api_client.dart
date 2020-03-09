@@ -7,7 +7,7 @@ import 'package:money2/money2.dart';
 import 'converter_repository.dart';
 
 class ConverterApiClient implements ConverterRepository {
-  static final baseOptions = BaseOptions(baseUrl: "http://192.168.1.2:8080");
+  static final baseOptions = BaseOptions(baseUrl: "http://converter-api.brazilsouth.cloudapp.azure.com");
 
   final Dio dio;
 
