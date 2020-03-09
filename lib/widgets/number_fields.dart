@@ -4,6 +4,7 @@ import 'package:money2/money2.dart';
 import 'package:skeleton_text/skeleton_text.dart';
 
 import '../bloc/converter_bloc.dart';
+import '../widgets/currency_picker.dart';
 
 class NumberFields extends StatefulWidget {
   NumberFields({Key key}) : super(key: key);
@@ -29,15 +30,20 @@ class _NumberFieldsState extends State<NumberFields> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              height: 100,
-              alignment: AlignmentDirectional.centerEnd,
-              child: Text(
-                snapshot.value.toString(),
-                textAlign: TextAlign.end,
-                style: snapshot is ConverterResulted ? inactiveText : activeText,
-              ),
+            Row(
+              children: <Widget>[
+                CurrencyPicker(),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  height: 100,
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: Text(
+                    snapshot.value.toString(),
+                    textAlign: TextAlign.end,
+                    style: snapshot is ConverterResulted ? inactiveText : activeText,
+                  ),
+                ),
+              ],
             ),
             Divider(
               indent: 16,
@@ -58,10 +64,8 @@ class _NumberFieldsState extends State<NumberFields> {
                             textAlign: TextAlign.end,
                             style: activeText.copyWith(color: Colors.transparent),
                           ),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(8)
-                          ),
+                          decoration:
+                              BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(8)),
                         ),
                       )
                     : AnimatedOpacity(
