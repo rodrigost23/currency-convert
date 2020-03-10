@@ -130,12 +130,11 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
     if (error is DioError) {
       if (error.type == DioErrorType.CONNECT_TIMEOUT) {
         details = "Servidor fora de alcance";
-      } else if (error.error is SocketException && error.error.osError.errorCode == 101) {
+      } else if (error.error is SocketException) {
         details = "Verifique sua conexão";
       }
-    } else {
-      debugPrint(error.toString());
     }
+    debugPrint(error.toString());
     return ConverterError.fromState(state, error: errorMessage, details: details);
   }
 }
