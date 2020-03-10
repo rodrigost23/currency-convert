@@ -22,6 +22,7 @@ class _CurrencyPickerState extends State<CurrencyPicker> {
     Currencies.find("BRL"): "BR",
     Currencies.find("EUR"): "EU",
     Currencies.find("USD"): "US",
+    Currencies.find("GBP"): "GB",
   };
 
   @override
