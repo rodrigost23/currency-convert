@@ -12,11 +12,30 @@ class NumbersGrid extends StatelessWidget {
     for (var i = 7; i <= 9; i++) {
       var columnItems = <Widget>[];
       for (var j = 0; j < 12; j = j + 3) {
-        String value = j < 8 ? (i - j).toString() : (i - j == -2 ? '' : (i - j == 0 ? '=' : '0'));
+        String value = (i - j).toString();
 
-        columnItems.add(
-          Expanded(child: value != '' ? KeyboardButton(text: value) : Container()),
-        );
+        // Number zero:
+        if (value == '-1') {
+          value = "0";
+          // Equal button:
+        } else if (value == '0') {
+          value = "=";
+          // If not a number:
+        } else if (j > 6) {
+          value = null;
+        }
+
+        // Space below "1":
+        if (value == null) {
+          columnItems.add(
+            Expanded(child: Container()),
+          );
+          // Other keys:
+        } else {
+          columnItems.add(
+            Expanded(child: KeyboardButton(text: value)),
+          );
+        }
       }
 
       rowItems.add(
