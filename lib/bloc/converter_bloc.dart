@@ -120,7 +120,7 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
     return ConverterEditing.fromState(state).copyWith(
       fromCurrency: input,
       toCurrency: output,
-      value: state.value.exchangeTo(Money.from(1, state.fromCurrency)),
+      value: state.value.exchangeTo(Money.from(1, input)),
     );
   }
 
