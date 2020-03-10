@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.symmetric(horizontal: 24),
                           child: BlocBuilder<ConverterBloc, ConverterState>(builder: (context, state) {
                             return Text(
-                              state is ConverterError ? state.details : "",
+                              state is ConverterError ? (state.details ?? "") : "",
                               style: Theme.of(context)
                                   .textTheme
                                   .body2
